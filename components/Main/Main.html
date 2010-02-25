@@ -1,0 +1,32 @@
+<div>
+  <style type="text/golf">
+    .main {
+      position: relative;
+    }
+    .main > div {
+      float: left;
+    }
+    .leftpane {
+      width: 30.5em;
+      padding: 1em;
+      border: 1px dashed red;
+    }
+    .rightpane {
+      padding: 1em;
+      margin-left: 1em;
+      border: 1px dashed green;
+    }
+  </style>
+  <script type="text/golf">
+    function() {
+      $(".leftpane").append(new Component.Try());
+      $(".rightpane").append("<h3>This is it.</h3>");
+    }
+  </script>
+  <div class="main">
+    <div class="leftpane">
+    </div>
+    <div class="rightpane">
+    </div>
+  </div>
+</div>

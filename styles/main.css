@@ -1,0 +1,10 @@
+body {
+  font-family: sans-serif;
+}
+
+textarea {
+  font-family: monospace;
+  width: 100%;
+  height: 50em;
+  margin-left: -1em;
+}

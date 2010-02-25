@@ -1,0 +1,22 @@
+<div>
+  <style type="text/golf">
+  </style>
+  <script type="text/golf">
+    function() {
+      var ctrl = $("<textarea/>");
+      $.get("?path=controller.js", function(data) {
+        ctrl.text(data);
+      });
+      var cmpn = $("<textarea/>")
+        .text($.golf.components.Tabs.orig);
+      var tabs = (new Component.Tabs())
+        .add("controller", ctrl)
+        .add("plugins", "here we are")
+        .add("components", cmpn)
+        .select(0);
+      $(".tabs").append(tabs);
+    }
+  </script>
+  <h3>Fuck the VA</h3>
+  <div class="tabs"/>
+</div>
