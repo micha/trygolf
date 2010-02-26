@@ -1,32 +1,48 @@
 <div>
   <style type="text/golf">
-    .main {
-      position: relative;
-    }
-    .main > div {
-      float: left;
-    }
     .leftpane {
-      width: 30.5em;
-      padding: 1em;
       border: 1px dashed red;
+      background: white;
     }
     .rightpane {
-      padding: 1em;
-      margin-left: 1em;
       border: 1px dashed green;
+      background: white;
+    }
+    .content {
+      border: 1px solid #ddd;
+      margin-top: 0.45em;
+    }
+    .url {
+      color: #999;
+      font-family: monospace;
     }
   </style>
   <script type="text/golf">
     function() {
       $(".leftpane").append(new Component.Try());
-      $(".rightpane").append("<h3>This is it.</h3>");
+      $(".url").text(servletUrl+"#");
+      $("form").submit(function(event) {
+        event.preventDefault();
+        $.golf.route($("input[name='hash']").val(), $(".content"));
+      });
+      $("input[name='hash']").val($.golf.controller[0].route);
+      $("form").submit();
     }
   </script>
-  <div class="main">
-    <div class="leftpane">
-    </div>
-    <div class="rightpane">
-    </div>
+  <table class="main" cellspacing="10" cellpadding="10" width="100%">
+    <tr>
+      <td class="leftpane" valign="top" width="50%">
+        <h3>Edit</h3>
+      </td>
+      <td class="rightpane" valign="top" width="50%">
+        <h3>Preview</h3>
+        <form>
+          <span class="url"/><input type="text" name="hash"/>
+          <input type="submit" value="go!"/>
+        </form>
+        <div class="content"/>
+      </td>
+    </tr>
+  </table>
   </div>
 </div>

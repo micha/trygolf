@@ -1,0 +1,36 @@
+<div>
+  <style type="text/golf">
+  </style>
+  <script type="text/golf">
+    function(data) {
+      var applyHandlers = [];
+
+      this.apply = function(handler) {
+        applyHandlers.push(handler);
+        return this;
+      };
+
+      this.update = function(data) {
+        $("textarea").val(data);
+        return this;
+      };
+
+      $("form").submit(function(event) {
+        console.log("got here");
+        event.preventDefault();
+        $.each(applyHandlers, function(i,v) {
+          v($("textarea").val());
+        });
+      });
+
+      $("textarea").change(function(event) {
+        $("form").submit();
+      });
+
+      this.update(data);
+    }
+  </script>
+  <form>
+    <textarea></textarea>
+  </form>
+</div>

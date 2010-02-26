@@ -1,0 +1,42 @@
+<div>
+  <style type="text/golf">
+    select {
+      margin: 0 1em 1.5em -1em;
+      width: 10em;
+    }
+  </style>
+  <script type="text/golf">
+    function() {
+      var multi = this;
+
+      this.add = function(title, editor) {
+        var size = $("option").size();
+
+        $("select").append(
+          $("<option value='"+size+"'/>").text(title)
+        );
+        $(".editors").append($("<div/>").append(editor).hide());
+
+        return size == 0 ? this.select(0) : this;
+      };
+
+      this.select = function(index) {
+        $(".editors > div").hide().eq(index).show();
+        $("select").val(index);
+        return this;
+      };
+
+      $("select").change(function(event) {
+        event.preventDefault();
+        multi.select($("select").val());
+      });
+    }
+  </script>
+  <div class="select">
+    <select name="chooser">
+    <input type="button" name="delete" value="delete"/>
+    <input type="button" name="new" value="new"/>
+  </div>
+  </select>
+  <div class="editors"/>
+</div>

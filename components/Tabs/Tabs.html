@@ -59,7 +59,7 @@
           return tabs.select(size), false;
         });
 
-        return this.select(size);
+        return size == 0 ? this.select(size) : this;
       };
 
       this.select = function(tabIndex) {
