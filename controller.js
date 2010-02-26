@@ -1,4 +1,8 @@
 
+$(document).unbind("route_error").bind("route_error", function(e) {
+  alert("Exception: "+e.message);
+});
+
 $.golf.controller = [
 
   { route: "/test/",

@@ -10,7 +10,7 @@
     }
     .content {
       border: 1px solid #bbb;
-      margin-top: 2.1em;
+      margin-top: 2.15em;
       background: yellowgreen;
     }
     .url {
@@ -23,6 +23,17 @@
   </style>
   <script type="text/golf">
     function() {
+      var main = this;
+
+      var height = $(window).height();
+      var width = $(window).width();
+
+      this.resize = function() {
+        $("table").height($(window).height()+"px");
+        $(".content").height(($(window).height() - 180) + "px");
+        console.log("height="+$("tr").get()[0].clientHeight);
+      };
+
       $(".leftpane").append(new Component.Try());
       $(".url").text(servletUrl+"#");
       $("form").submit(function(event) {
@@ -31,6 +42,12 @@
       });
       $("input[name='hash']").val($.golf.controller[0].route);
       $("form").submit();
+
+      $(window).resize(function(event) {
+        main.resize();
+      });
+
+      this.resize();
     }
   </script>
   <table class="main" cellspacing="10" cellpadding="10" width="100%">

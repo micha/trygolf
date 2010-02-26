@@ -1,6 +1,8 @@
 body {
   font-family: sans-serif;
   background: yellowgreen;
+  margin: 0;
+  padding: 0;
 }
 
 textarea {

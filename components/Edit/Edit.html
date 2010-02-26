@@ -16,7 +16,6 @@
       };
 
       $("form").submit(function(event) {
-        console.log("got here");
         event.preventDefault();
         $.each(applyHandlers, function(i,v) {
           v($("textarea").val());

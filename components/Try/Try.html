@@ -3,14 +3,17 @@
   </style>
   <script type="text/golf">
     function() {
-      var ctrl = new Component.Edit(),
+      var ctrl = new Component.MultiEdit(),
           plgn = new Component.MultiEdit(),
           cpnt = new Component.MultiEdit(),
           tabs = (new Component.Tabs())
                     .add("controller", ctrl)
                     .add("plugins", plgn)
                     .add("components", cpnt),
+          ctrlEdit = new Component.Edit(),
           i;
+
+      ctrl.add("controller", ctrlEdit);
 
       for (i in $.golf.plugins)
         plgn.add(i, new Component.Edit($.golf.plugins[i].js));
@@ -25,12 +28,12 @@
       if (! $.component.lastController)
         $.get("?path=controller.js", function(data) {
           $.component.lastController = data;
-          ctrl.update(data);
+          ctrlEdit.update(data);
         });
       else
-        ctrl.update($.component.lastController);
+        ctrlEdit.update($.component.lastController);
 
-      ctrl.apply(function(data) {
+      ctrlEdit.apply(function(data) {
         $.component.lastController = data;
         $.globalEval(data);
       });
