@@ -10,12 +10,13 @@
     }
     .content {
       border: 1px solid #bbb;
-      margin-top: 2.15em;
+      margin: 2.15em 5px 0 5px;
       background: yellowgreen;
     }
     .url {
       color: #999;
       font-family: monospace;
+      margin-left: 5px;
     }
     input[type='text'] {
       border: 1px solid #bbb;
@@ -30,8 +31,8 @@
 
       this.resize = function() {
         $("table").height($(window).height()+"px");
-        $(".content").height(($(window).height() - 180) + "px");
-        console.log("height="+$("tr").get()[0].clientHeight);
+        $(".content").height("0px");
+        $(".content").height(($(".rightpane").height() - $(".content").position().top - 20) + "px");
       };
 
       $(".leftpane").append(new Component.Try());
@@ -47,7 +48,9 @@
         main.resize();
       });
 
-      this.resize();
+      this.onAppend = function() {
+        this.resize();
+      };
     }
   </script>
   <table class="main" cellspacing="10" cellpadding="10" width="100%">
