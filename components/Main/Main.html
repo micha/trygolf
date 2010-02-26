@@ -1,20 +1,24 @@
 <div>
   <style type="text/golf">
     .leftpane {
-      border: 1px dashed red;
+      border: 1px solid green;
       background: white;
     }
     .rightpane {
-      border: 1px dashed green;
+      border: 1px solid green;
       background: white;
     }
     .content {
-      border: 1px solid #ddd;
-      margin-top: 0.45em;
+      border: 1px solid #bbb;
+      margin-top: 2.1em;
+      background: yellowgreen;
     }
     .url {
       color: #999;
       font-family: monospace;
+    }
+    input[type='text'] {
+      border: 1px solid #bbb;
     }
   </style>
   <script type="text/golf">
@@ -32,10 +36,10 @@
   <table class="main" cellspacing="10" cellpadding="10" width="100%">
     <tr>
       <td class="leftpane" valign="top" width="50%">
-        <h3>Edit</h3>
+        <h1>Edit</h1>
       </td>
       <td class="rightpane" valign="top" width="50%">
-        <h3>Preview</h3>
+        <h1>Preview</h1>
         <form>
           <span class="url"/><input type="text" name="hash"/>
           <input type="submit" value="go!"/>
