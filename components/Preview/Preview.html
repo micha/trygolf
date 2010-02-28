@@ -1,0 +1,115 @@
+<div>
+  <style type="text/golf">
+    form {
+      margin-top: 5px;
+    }
+    .component {
+      position: relative;
+    }
+    .frame {
+      position: relative;
+      border: 1px solid #bbb;
+      background: #eee;
+      margin-top: 1em;
+      margin-left: 5px;
+      margin-right: -5px;
+    }
+    .titlebar {
+      background: darkblue;
+      color: #ddd;
+      text-align: center;
+      vertical-align: middle;
+      min-height: 1.25em;
+      padding: 0.2em;
+      margin-left: -1px;
+      margin-right: -1px;
+    }
+    .content {
+      position: relative;
+      border: 1px solid #bbb;
+      margin: 5px 0 -5px -1px;
+      overflow: scroll;
+      width: 100%;
+    }
+    .url {
+      color: #999;
+      font-family: monospace;
+      margin-left: 5px;
+    }
+    input[type='text'] {
+      border: 1px solid #bbb;
+    }
+  </style>
+
+  <script type="text/golf">
+    function(par, ifrm) {
+      var main = this, i;
+
+      function settitle() {
+        var cd = ifrm.get()[0].contentDocument;
+        var cw = ifrm.get()[0].contentWindow;
+        if (!cd || !cw || !cw.$ || !cw.$(".golfbody *").size())
+          return setTimeout(settitle, 10);
+        $("input[name='hash']").val(cw.$.golf.controller[0].route);
+        $("form").submit();
+      }
+
+      this.resize = function() {
+        if (par.height() <= 0)
+          return setTimeout(this.resize, 10);
+
+        $(".content").height("0px");
+
+        var h = par.height();
+        h -= parseInt(par.css("padding-top").replace(/px$/, ""));
+        h -= parseInt(par.css("padding-bottom").replace(/px$/, ""));
+        h -= parseInt($(".content").css("border-top-width").replace(/px$/, ""));
+        h -= parseInt($(".content").css("border-bottom-width").replace(/px$/, ""));
+
+        for (i=$(".content"); ; i=i.parent()) {
+          var horig = h;
+          h -= i.position().top;
+          h -= parseInt(i.css("padding-top").replace(/px$/, ""));
+          h -= parseInt(i.css("padding-bottom").replace(/px$/, ""));
+          console.log(i.get()[0].tagName + " ["+i.attr("class")+"] "+(horig - h));
+          if (i.parent().get()[0] == par.get()[0])
+            break;
+        }
+
+        $(".content").height(h + "px");
+      };
+
+      $(".url").text(servletUrl+"#");
+
+      if (window == top) {
+        $("form").after(
+          ifrm.removeClass().addClass("content").attr("name", "ifrm").show()
+        );
+        settitle();
+      }
+
+      $("form").submit(function(event) {
+        ifrm.get()[0].contentWindow.$.golf.route($("input[name='hash']").val());
+        $(".titlebar").text(ifrm.get()[0].contentDocument.title);
+        return false;
+      });
+
+      this.onAppend = function() {
+        $(window).resize(function(event) {
+          main.resize();
+        });
+        this.resize();
+      };
+    }
+  </script>
+
+  <div class="frame">
+    <div class="titlebar"></div>
+    <form>
+      <input type="button" name="back" value="<-" disabled="true"/>
+      <input type="button" name="forward" value="->" disabled="true"/>
+      <span class="url"/><input type="text" name="hash"/>
+      <input type="submit" value="go!"/>
+    </form>
+  </div>
+</div>

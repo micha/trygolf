@@ -17,8 +17,9 @@
       float: left;
       margin: 0;
       padding: 0;
+      cursor: pointer;
     }
-    .tabs > ul > li > a {
+    .tabs > ul > li > span {
       display:block;
       color:#444;
       text-decoration:none;
@@ -30,8 +31,7 @@
       border-right:1px solid #fff;
       border-top:1px solid #fff;
     }
-    .tabs > ul > li > a.selected:link,
-    .tabs > ul > li > a.selected:visited {
+    .tabs > ul > li > span.selected {
       position:relative;
       z-index:102;
       background: white;
@@ -48,8 +48,8 @@
       var tabs = this;
 
       this.add = function(title, content) {
-        var tab=$("<a href='#'/>").text(title), 
-            size=$(".tabs > ul > li > a").size(),
+        var tab=$("<span href='#'></span>").text(title), 
+            size=$(".tabs > ul > li > span").size(),
             meth=content.jquery||content._dom?"append":"text";
 
         $(".tabs > ul").append($("<li/>").append(tab));
@@ -64,7 +64,7 @@
 
       this.select = function(tabIndex) {
         $(".content > div").hide().eq(tabIndex).show();
-        $(".tabs a").removeClass("selected").eq(tabIndex).addClass("selected");
+        $(".tabs span").removeClass("selected").eq(tabIndex).addClass("selected");
         return this;
       };
     }

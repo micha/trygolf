@@ -8,6 +8,12 @@
   <script type="text/golf">
     function() {
       var multi = this;
+      var newHandlers = [];
+
+      this.create = function(handler) {
+        newHandlers.push(handler);
+        return this;
+      };
 
       this.add = function(title, editor) {
         var size = $("option").size();
@@ -34,9 +40,9 @@
   </script>
   <div class="select">
     <form>
-      <select name="chooser">
-      <input type="button" name="delete" value="delete"/>
-      <input type="button" name="new" value="new"/>
+      <select name="chooser"/>
+      <input type="button" disabled="true" name="delete" value="delete"/>
+      <input type="button" disabled="true" name="new" value="new"/>
     </form>
   </div>
   </select>

@@ -5,52 +5,45 @@
       background: white;
     }
     .rightpane {
+      position: relative;
       border: 1px solid green;
       background: white;
-    }
-    .content {
-      border: 1px solid #bbb;
-      margin: 2.15em 5px 0 5px;
-      background: yellowgreen;
-    }
-    .url {
-      color: #999;
-      font-family: monospace;
-      margin-left: 5px;
-    }
-    input[type='text'] {
-      border: 1px solid #bbb;
+      padding-right: 20px;
     }
   </style>
   <script type="text/golf">
     function() {
       var main = this;
 
-      var height = $(window).height();
-      var width = $(window).width();
+      if (top === window) {
+        this.resize = function() {
+          $("table").height($(window).height()+"px");
+        };
 
-      this.resize = function() {
-        $("table").height($(window).height()+"px");
-        $(".content").height("0px");
-        $(".content").height(($(".rightpane").height() - $(".content").position().top - 20) + "px");
-      };
+        $(document).one('ifrm_load', function(event) {
+          if (top == window) {
+            $(".leftpane")
+              .append(new Component.Try($(".leftpane"), $(".ifrm")));
+            $(".rightpane")
+              .append(new Component.Preview($(".rightpane"), $(".ifrm")));
+          }
+        });
 
-      $(".leftpane").append(new Component.Try());
-      $(".url").text(servletUrl+"#");
-      $("form").submit(function(event) {
-        event.preventDefault();
-        $.golf.route($("input[name='hash']").val(), $(".content"));
-      });
-      $("input[name='hash']").val($.golf.controller[0].route);
-      $("form").submit();
+        $("table").after(
+          $("<iframe></iframe>")
+          .attr("src", window.servletUrl)
+          .load(function(event) { $(document).trigger('ifrm_load') })
+          .attr("name", "ifrm")
+          .addClass("ifrm")
+        );
 
-      $(window).resize(function(event) {
-        main.resize();
-      });
-
-      this.onAppend = function() {
-        this.resize();
-      };
+        this.onAppend = function() {
+          $(window).resize(function(event) {
+            main.resize();
+          });
+          this.resize();
+        };
+      }
     }
   </script>
   <table class="main" cellspacing="10" cellpadding="10" width="100%">
@@ -60,13 +53,7 @@
       </td>
       <td class="rightpane" valign="top" width="50%">
         <h1>Preview</h1>
-        <form>
-          <span class="url"/><input type="text" name="hash"/>
-          <input type="submit" value="go!"/>
-        </form>
-        <div class="content"/>
       </td>
     </tr>
   </table>
-  </div>
 </div>

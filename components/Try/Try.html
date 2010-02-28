@@ -2,12 +2,14 @@
   <style type="text/golf">
   </style>
   <script type="text/golf">
-    function() {
+    function(par, ifrm) {
       var ctrl = new Component.MultiEdit(),
+          styl = new Component.MultiEdit(),
           plgn = new Component.MultiEdit(),
           cpnt = new Component.MultiEdit(),
           tabs = (new Component.Tabs())
                     .add("controller", ctrl)
+                    .add("styles", styl)
                     .add("plugins", plgn)
                     .add("components", cpnt),
           ctrlEdit = new Component.Edit(),
@@ -15,15 +17,25 @@
 
       ctrl.add("controller", ctrlEdit);
 
-      for (i in $.golf.plugins)
-        plgn.add(i, new Component.Edit($.golf.plugins[i].js));
+      var _$ = ifrm.get()[0].contentWindow.$;
 
-      for (i in $.golf.components) 
-        cpnt.add(i, new Component.Edit($.golf.components[i].orig).apply(
-          (function(j) {
-            return function(data) { $.golf.addComponent(data, j) };
-          })(i)
-        ));
+      for (i in _$.golf.styles)
+        styl.add(i, new Component.Edit(_$.golf.styles[i].css));
+
+      for (i in _$.golf.plugins)
+        plgn.add(i, new Component.Edit(_$.golf.plugins[i].js));
+
+      for (i in _$.golf.components) 
+        cpnt.add(
+          i, 
+          new Component.Edit(_$.golf.components[i].orig).apply(
+            (function(j) {
+              return function(data) { 
+                ifrm.get()[0].contentWindow.$.golf.addComponent(data, j);
+              };
+            })(i)
+          )
+        );
 
       if (! $.component.lastController)
         $.get("?path=controller.js", function(data) {
@@ -35,7 +47,7 @@
 
       ctrlEdit.apply(function(data) {
         $.component.lastController = data;
-        $.globalEval(data);
+        ifrm.get()[0].contentWindow.$.globalEval(data);
       });
 
       $(".tabs").append(tabs);
